@@ -56,7 +56,7 @@ const Profile = ({ match }) => {
 
     const redirectUser = success => {
         if (success) {
-            return <Redirect to="/home" />;
+            return <Redirect to="/user/dashboard" />;
         }
     };
 
@@ -74,7 +74,7 @@ const Profile = ({ match }) => {
                 <label className="text-muted">Password</label>
                 <input type="password" onChange={handleChange('password')} className="form-control" value={password} />
             </div>
-
+        
             <button onClick={clickSubmit} className="btn btn-primary">
                 Submit
             </button>
