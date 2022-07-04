@@ -3,16 +3,23 @@ const { ObjectId } = mongoose.Schema;
 
 
 const addressSchema = new mongoose.Schema({
+    governorate:{
+        type: ObjectId,
+        ref: 'Governorate',
+        required: true
+    },
     name: {
         type: String,
         trim: true,
         required: true,
         maxlength: 255
     },
-    governorate:{
-        type: ObjectId,
-        ref: 'Governorate',
-        required: true
+    
+    location: {
+        type: String,
+        trim: true,
+        required: true,
+        maxlength: 255
     }
 
 },
