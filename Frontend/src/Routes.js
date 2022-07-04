@@ -18,7 +18,9 @@ import Cart from "./core/Cart";
 import Orders from "./admin/Orders";
 import Profile from "./user/Profile";
 import About from "./core/About";
-
+import Addgovernorate from "./admin/AddGovernorate";
+import AddAddress from "./admin/AddAddress";
+import UpdateStore from "./admin/UpdateStore";
 const Routes = () =>{
     return (<div>
         <BrowserRouter>
@@ -38,6 +40,9 @@ const Routes = () =>{
             <AdminRoute path="/admin/orders" exact component={Orders} />
             <AdminRoute path="/admin/products" exact component={ManageProducts} />
             <AdminRoute path="/admin/product/update/:productId" exact component={UpdateProduct} />   
+            <AdminRoute path="/update/store" exact component={UpdateStore} />
+            <AdminRoute path="/add/governorate" exact component={Addgovernorate} />
+            <AdminRoute path="/add/address" exact component={AddAddress} />
         </switch> 
         </BrowserRouter>
     </div>)

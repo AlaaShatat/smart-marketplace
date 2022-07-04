@@ -34,7 +34,7 @@ const AdminDashboard = () => {
                         </Link>
                     </li>
                     <li className="list-group-item">
-                        <Link className="nav-link" to="/store/update">
+                        <Link className="nav-link" to="/update/store">
                             Manage store info
                         </Link>
                     </li>
