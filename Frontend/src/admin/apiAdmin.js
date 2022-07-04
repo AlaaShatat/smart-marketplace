@@ -174,3 +174,81 @@ export const updateProduct = (productId, userId, token, product) => {
         })
         .catch(err => console.log(err));
 };
+
+// govern
+export const creategovernorate = (userId, token, governorate) => {
+    return fetch(`${API}/governorate/create/${userId}`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(governorate)
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => {
+            console.log(err);
+            return err.json();
+        });
+};
+
+export const getGovernorate = governorateId => {
+    return fetch(`${API}/governorate/${governorateId}`, {
+        method: 'GET'
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
+export const getGovernorates = () => {
+    return fetch(`${API}/governorates`, {
+        method: 'GET'
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+// Address
+export const createAddress = (userId, token, address) => {
+    return fetch(`${API}/address/create/${userId}`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(address)
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => {
+            console.log(err);
+            return err.json();
+        });
+};
+export const getAddress = addressId => {
+    return fetch(`${API}/address/${addressId}`, {
+        method: 'GET'
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
+export const getAddresses = () => {
+    return fetch(`${API}/addresses`, {
+        method: 'GET'
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
