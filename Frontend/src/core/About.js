@@ -44,10 +44,13 @@ const About = ()=>{
                                     {g.name}
                                 </h4>
                                 {addresses.map((address, j)=>{
+                                    return(
                                     <div key={j}>
-                                        <p>{address.name}</p>
+                                        {g._id == address.governorate && <li>
+                                            <a href={address.location}>{address.name}</a>
+                                        </li>}
                                     </div>
-                                }
+                                    )}
                                 )}
                                  
                             </div>
