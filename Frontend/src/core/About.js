@@ -1,21 +1,61 @@
 import React, {useEffect, useState} from "react";
 import Layout from "./Layout";
-
+import { getAddresses, getGovernorates } from "../admin/apiAdmin";
 const About = ()=>{
-      
+
+      const [governorates, setGovernorates] = useState([]);
+      const [addresses, setAddresses] = useState([]);
+      const [error, setError] = useState(false)
+
+      const loadGovernorates = ()=>{
+        getGovernorates().then(data=>{
+              if(data.error){
+                    setError(data.error)
+              }
+              else{
+                    setGovernorates(data)
+              }
+        })
+    }
+    const loadAddresses = () => {
+        getAddresses().then(data => {
+            if (data.error) {
+                console.log(data.error);
+            } else {
+                setAddresses(data);
+            }
+        });
+    };
+    useEffect(() => {
+        loadGovernorates();
+        loadAddresses();
+    }, []);
+  
       return(
 
        <Layout title="ShopOn Store" description="ShopOn is a place where you can get everything you need!" className="container-fluid"> 
             <div className = "row" >
             <div className="col-2">
-                    <h3>Our Branches</h3>
-                    <ul>
-                        <h4>Cairo</h4>
-                        <li>Saint Fatima</li>
-                        <li>Roxi</li>
-                        <li>Nasr City</li>
+                    <h2>Our Branches</h2>
+                    {governorates.map((g,i)=>{
+                        return(
+                            <div key={i}>
+                                <h4>
+                                    {g.name}
+                                </h4>
+                                {addresses.map((address, j)=>{
+                                    <div key={j}>
+                                        <p>{address.name}</p>
+                                    </div>
+                                }
+                                )}
+                                 
+                            </div>
 
-                    </ul>
+                        )
+                    })
+                  
+                }
 
                 </div>
                 <div className="col-10">
