@@ -1,0 +1,1 @@
+export const map  = process.env.GPS_API_KEY ;
