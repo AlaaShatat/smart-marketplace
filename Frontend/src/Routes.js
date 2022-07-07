@@ -21,6 +21,8 @@ import About from "./core/About";
 import Addgovernorate from "./admin/AddGovernorate";
 import AddAddress from "./admin/AddAddress";
 import UpdateStore from "./admin/UpdateStore";
+import Recommend from "./core/Recommend";
+
 const Routes = () =>{
     return (<div>
         <BrowserRouter>
@@ -43,6 +45,7 @@ const Routes = () =>{
             <AdminRoute path="/update/store" exact component={UpdateStore} />
             <AdminRoute path="/add/governorate" exact component={Addgovernorate} />
             <AdminRoute path="/add/address" exact component={AddAddress} />
+            <PrivateRoute  path="/recommend/:userId" exact component={Recommend}/>
         </switch> 
         </BrowserRouter>
     </div>)
