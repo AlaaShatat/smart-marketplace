@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const Product = require("../models/product");
-const { create, productById, read, list, updateProduct, removebyseller, listRelated, listCategories,listBySearch, photo, listSearch, update, remove } = require("../controllers/product");
+const { create, productById, read, list, updateProduct, removebyseller, listRelated, listCategories,listBySearch, photo, listSearch, update, remove,listRecommended } = require("../controllers/product");
 const { requireSignin, isAuth,isSeller, isOwner,isAdmin } = require("../controllers/auth");
 const { userById } = require("../controllers/user");
-
+const {categoryById} = require("../controllers/category")
 // create product
 router.post("/product/create/:userId", requireSignin, isAuth, isAdmin, create);
 // read a product or get 
@@ -35,10 +35,12 @@ router.put(
 
 // related id 
 router.get("/products/related/:productId",listRelated)
+router.get("/products/recommended/:categoryId",listRecommended)
 router.get("/products/categories",listCategories)
 router.post("/products/by/search", listBySearch);
 router.get("/product/photo/:productId", photo)
 router.param("userId", userById);
 router.param("productId", productById);
+router.param("categoryId", categoryById);
 
 module.exports = router;
