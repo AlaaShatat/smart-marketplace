@@ -24,6 +24,11 @@ const AdminDashboard = () => {
                         </Link>
                     </li>
                     <li className="list-group-item">
+                        <Link className="nav-link" to="/admin/products">
+                            Manage Products
+                        </Link>
+                    </li>
+                    <li className="list-group-item">
                         <Link className="nav-link" to="/admin/orders">
                             View Orders
                         </Link>
@@ -34,8 +39,8 @@ const AdminDashboard = () => {
                         </Link>
                     </li>
                     <li className="list-group-item">
-                        <Link className="nav-link" to="/admin/products">
-                            Manage Products
+                        <Link className="nav-link" to="/best/product">
+                            Statistics Report
                         </Link>
                     </li>
                     <li className="list-group-item">
@@ -43,11 +48,7 @@ const AdminDashboard = () => {
                             Manage store info
                         </Link>
                     </li>
-                    <li className="list-group-item">
-                        <Link className="nav-link" to="/best/product">
-                            Statistics
-                        </Link>
-                    </li>
+                    
                     <li className="list-group-item">
                         <Link className="nav-link" to="/user/dashboard">
                             change account info
