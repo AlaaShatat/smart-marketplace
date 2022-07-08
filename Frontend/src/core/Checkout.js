@@ -93,7 +93,6 @@ const Checkout = ({ products, setRun = f => f, run = undefined }) => {
     let deliveryAddress = data.address;
     let deliveryShipping = getTotal(products) > 50 ? 0 : data.shipping;
     let discount = history.length > 10 ? -2 : 0;
-    console.log("data.shipping" + data.shipping)
         
     const buy = () => {
         setData({ loading: true });
@@ -112,7 +111,6 @@ const Checkout = ({ products, setRun = f => f, run = undefined }) => {
                 //     nonce,
                 //     getTotal(products)
                 // );
-                console.log("del " + deliveryShipping)
                 const paymentData = {
                     paymentMethodNonce: nonce,
                     amount: getTotal(products) + deliveryShipping + discount
@@ -157,6 +155,36 @@ const Checkout = ({ products, setRun = f => f, run = undefined }) => {
                 setData({ ...data, error: error.message });
             });
     };
+    const buyCash = () => {
+        setData({ loading: true });
+        // send the nonce to your server
+        // nonce = data.instance.requestPaymentMethod()
+        const createOrderData = {
+            products: products,
+            shipping: true,
+            amount: getTotal(products) + deliveryShipping + discount,
+            address: deliveryAddress
+        };
+
+        createOrder(userId, token, createOrderData)
+            .then(response => {
+                emptyCart(() => {
+                    setRun(!run); // run useEffect in parent Cart
+                    console.log('payment success and empty cart');
+                    setData({
+                        loading: false,
+                        success: true,
+                        shipping:0
+                    });
+                });
+            })
+            .catch(error => {
+                console.log(error);
+                setData({ loading: false });
+            });
+            
+    
+    };
 
     const showDropIn = () => (
         <div onBlur={() => setData({ ...data, error: '' })}>
@@ -193,7 +221,10 @@ const Checkout = ({ products, setRun = f => f, run = undefined }) => {
                         onInstance={instance => (data.instance = instance)}
                     />
                     <button onClick={buy} className="btn btn-success btn-block">
-                        Pay
+                        Pay using credit
+                    </button>
+                    <button onClick={buyCash} className="btn btn-success btn-block">
+                        Pay cash
                     </button>
                 </div>
             ) : null}
@@ -208,7 +239,7 @@ const Checkout = ({ products, setRun = f => f, run = undefined }) => {
 
     const showSuccess = success => (
         <div className="alert alert-info" style={{ display: success ? '' : 'none' }}>
-            Thanks! Your payment was successful!
+            Thanks! Successful Order!
         </div>
     );
 
@@ -219,7 +250,7 @@ const Checkout = ({ products, setRun = f => f, run = undefined }) => {
         <div>
             <h2> {deliveryShipping == 0 && getTotal(products) > 50? "Enjoy your free shipping!": "" } </h2>
             <h2> {discount != 0? "Congrats! you are a special customer, enjoy your $2 discount!": "" } </h2>
-            <h2>Total: ${getTotal() + deliveryShipping + discount }</h2>
+            <h2>Total: ${getTotal() ==0? 0 : getTotal() + deliveryShipping + discount }</h2>
             {showLoading(data.loading)}
             {showSuccess(data.success)}
             {showError(data.error)}

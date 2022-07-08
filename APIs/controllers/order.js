@@ -2,7 +2,7 @@ const { Order, CartItem } = require('../models/order');
 const { errorHandler } = require('../helpers/dbErrorHandler');
 // sendgrid for email npm i @sendgrid/mail
 const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey('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');
+sgMail.setApiKey('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');
 
 exports.orderById = (req, res, next, id) => {
     Order.findById(id)
@@ -35,9 +35,9 @@ exports.create = (req, res) => {
         // order.products.length
         // order.amount
         const emailData = {
-            to: 'gehadhisham856@gmail.com',
-            from: 'alaashabaan102210@gmail.com',
-            subject: `A new order is received`,
+            to: 'alaashabaan102210@gmail.com',
+            from: 'gehadhisham856@gmail.com',
+            subject: `Test a new order is received`,
             html: `
             <p>Customer name:</p>
             <p>Total products: ${order.products.length}</p>
@@ -45,7 +45,9 @@ exports.create = (req, res) => {
             <p>Login to dashboard to the order in detail.</p>
         `
         };
-        //sgMail.send(emailData);
+        sgMail.send(emailData)
+        .then(sent => console.log('SENT >>>', sent))
+        .catch(err => console.log('ERR >>>', err));;
         res.json(data);
     });
 };
