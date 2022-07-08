@@ -41,6 +41,10 @@ const userSchema = new mongoose.Schema({
         recommendation:{
             type: Array,
             default: []
+        },
+        ordered:{
+            type: Number,
+            default: 0
         }
 
     },

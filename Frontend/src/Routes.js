@@ -27,6 +27,7 @@ import AddAddress from "./admin/AddAddress";
 import UpdateStore from "./admin/UpdateStore";
 import Recommend from "./core/Recommend";
 import currentLocation from "./core/Location";
+import BestCategory from "./admin/BestCategory";
 
 const Routes = () =>{
     return (<div>
@@ -57,6 +58,7 @@ const Routes = () =>{
             <AdminRoute path="/add/address" exact component={AddAddress} />
             <PrivateRoute  path="/recommend/:userId" exact component={Recommend}/>
             <Route path="/current/location" exact component = {currentLocation}/>
+            <Route path="/best/product" exact component={BestCategory} />
         </switch> 
         </BrowserRouter>
     </div>)

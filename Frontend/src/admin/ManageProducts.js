@@ -51,12 +51,20 @@ const ManageProducts = () => {
                                 key={i}
                                 className="list-group-item d-flex justify-content-between align-items-center"
                             >
-                                <strong>{p.name}</strong>
-                                <Link to={`/admin/product/update/${p._id}`}>
-                                    <span className="badge badge-warning badge-pill">
-                                        Update
-                                    </span>
-                                </Link>
+                                <div className="col-md-3">
+                                    <strong>{p.name} </strong>
+                                </div>
+                                <div className="col-md-3">
+                                    <strong>Sold: {p.sold}</strong>
+                                </div>
+                                <div className="col-md-3">
+                                    <Link to={`/admin/product/update/${p._id}`}>
+                                        <span className="badge badge-warning badge-pill">
+                                            Update
+                                        </span>
+                                    </Link>
+                                </div>
+                                <div className="col-md-3">
                                 <span>
                                     <button onClick={() => destroy(p._id)}
                                     className="badge badge-danger badge-pill">
@@ -64,6 +72,7 @@ const ManageProducts = () => {
                                     </button>
                                     
                                 </span>
+                                </div>
                             </li>
                         ))}
                     </ul>

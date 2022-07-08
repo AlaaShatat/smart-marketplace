@@ -25,7 +25,7 @@ const Recommend = ()=>{
             else{
                 setLoading(false);
                 console.log(dataCat);
-                setRecommendedCategory(dataCat);
+                setRecommendedCategory(dataCat[0][0].category);
             }
           })
       };
@@ -54,16 +54,7 @@ const Recommend = ()=>{
             <div className="row">
                 {showLoading}
                 {showError}
-               {recommendedCategory.map((r, j) => {
-                    return ( 
-                        <div key={j}>
-                            <li >
-                                {r[j].category.name}
-                            </li>
-
-                        </div>
-                                        )
-                })}
+                  <li> Top category for you: {JSON.stringify(recommendedCategory.name)}</li>
                
             </div>
             <hr/>
