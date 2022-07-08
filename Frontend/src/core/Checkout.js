@@ -33,6 +33,7 @@ const Checkout = ({ products, setRun = f => f, run = undefined }) => {
             } else {
                 console.log(data);
                 setData({ clientToken: data.clientToken });
+                setData({ shipping: 0 });
             }
         });
     };
@@ -74,7 +75,7 @@ const Checkout = ({ products, setRun = f => f, run = undefined }) => {
     };
 
     const getTotal = () => {
-        return products.reduce((currentValue, nextValue) => {
+        return products.reduce((currentValue, nextValue,shipping) => {
             return currentValue + nextValue.count * nextValue.price;
         }, 0);
     };
@@ -90,9 +91,9 @@ const Checkout = ({ products, setRun = f => f, run = undefined }) => {
     };
 
     let deliveryAddress = data.address;
-    let deliveryShipping = data.shipping;
-    
-    
+    let deliveryShipping = getTotal(products) > 50 ? 0 : data.shipping;
+    let discount = history.length > 10 ? -2 : 0;
+    console.log("data.shipping" + data.shipping)
         
     const buy = () => {
         setData({ loading: true });
@@ -111,9 +112,10 @@ const Checkout = ({ products, setRun = f => f, run = undefined }) => {
                 //     nonce,
                 //     getTotal(products)
                 // );
+                console.log("del " + deliveryShipping)
                 const paymentData = {
                     paymentMethodNonce: nonce,
-                    amount: getTotal(products) + deliveryShipping
+                    amount: getTotal(products) + deliveryShipping + discount
                 };
 
                 processPayment(userId, token, paymentData)
@@ -163,7 +165,7 @@ const Checkout = ({ products, setRun = f => f, run = undefined }) => {
                     <div className="gorm-group mb-3">
                         <div>
                             <label className="mr-2">Select governorate </label>
-                            <select value={selected} onChange={handleShipping}>
+                            <select value={selected} defaultValue={''} onChange={handleShipping}>
                             {options.map(option => (
                             <option key={option.value} value={option.value}>
                             {option.text}
@@ -215,8 +217,9 @@ const Checkout = ({ products, setRun = f => f, run = undefined }) => {
     
     return (
         <div>
-            <h2> {history.length>10 ? "Congrats! you are a special customer, enjoy your free shipping!": "" } </h2>
-            <h2>Total: ${deliveryShipping? history.length > 10? getTotal():getTotal() + deliveryShipping : getTotal() }</h2>
+            <h2> {deliveryShipping == 0 && getTotal(products) > 50? "Enjoy your free shipping!": "" } </h2>
+            <h2> {discount != 0? "Congrats! you are a special customer, enjoy your $2 discount!": "" } </h2>
+            <h2>Total: ${getTotal() + deliveryShipping + discount }</h2>
             {showLoading(data.loading)}
             {showSuccess(data.success)}
             {showError(data.error)}
