@@ -39,10 +39,16 @@ const AdminDashboard = () => {
                         </Link>
                     </li>
                     <li className="list-group-item">
+                        <Link className="nav-link" to="/best/product">
+                            Statistics
+                        </Link>
+                    </li>
+                    <li className="list-group-item">
                         <Link className="nav-link" to="/user/dashboard">
                             change account info
                         </Link>
                     </li>
+                   
                 </ul>
             </div>
         );
