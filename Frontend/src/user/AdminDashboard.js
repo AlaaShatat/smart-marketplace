@@ -24,25 +24,37 @@ const AdminDashboard = () => {
                         </Link>
                     </li>
                     <li className="list-group-item">
-                        <Link className="nav-link" to="/admin/orders">
-                            View Orders
-                        </Link>
-                    </li>
-                    <li className="list-group-item">
                         <Link className="nav-link" to="/admin/products">
                             Manage Products
                         </Link>
                     </li>
                     <li className="list-group-item">
-                        <Link className="nav-link" to="/store/update">
+                        <Link className="nav-link" to="/admin/orders">
+                            View Orders
+                        </Link>
+                    </li>
+                    <li className="list-group-item">
+                        <Link className="nav-link" to="/admin/statistics">
+                            View Statistics
+                        </Link>
+                    </li>
+                    <li className="list-group-item">
+                        <Link className="nav-link" to="/best/product">
+                            Statistics Report
+                        </Link>
+                    </li>
+                    <li className="list-group-item">
+                        <Link className="nav-link" to="/update/store">
                             Manage store info
                         </Link>
                     </li>
+                    
                     <li className="list-group-item">
                         <Link className="nav-link" to="/user/dashboard">
                             change account info
                         </Link>
                     </li>
+                   
                 </ul>
             </div>
         );

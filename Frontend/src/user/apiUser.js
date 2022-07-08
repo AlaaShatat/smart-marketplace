@@ -56,3 +56,18 @@ export const getPurchaseHistory = (userId, token) => {
         })
         .catch(err => console.log(err));
 };
+export const catRecommend = async (userId, token)=>{
+    try {
+        const response = await fetch(`${API}/user/recommend/${userId}`, {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return await response.json();
+    } catch (err) {
+        return console.log(err);
+    }
+};

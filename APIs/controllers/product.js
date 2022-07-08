@@ -202,6 +202,21 @@ exports.listRelated = (req, res)=>{
         .select("-photo")
         .exec((err, products)=>{
             if(err){
+                return res.status(400).json({
+                    error: "products not found"
+                });
+            }
+            return res.status(200).json(products)
+        })
+};
+exports.listRecommended = (req, res)=>{
+    let limit = req.query.limit? parseInt(req.query.limit) : 6;
+    product.find({ category:req.category})
+        .limit(limit)
+        .populate("category","_id name")
+        .select("-photo")
+        .exec((err, products)=>{
+            if(err){
                 return res.status(200).json({
                     error: "products not found"
                 });

@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { getProducts, getBraintreeClientToken, processPayment, createOrder } from './apiCore';
 import { emptyCart } from './cartHelpers';
 import Card from './Card';
+import { getPurchaseHistory } from '../user/apiUser';
 import { isAuthenticated } from '../auth';
 import { Link } from 'react-router-dom';
+
 // import "braintree-web"; // not using this package
 import DropIn from 'braintree-web-drop-in-react';
 
@@ -14,8 +16,11 @@ const Checkout = ({ products, setRun = f => f, run = undefined }) => {
         clientToken: null,
         error: '',
         instance: {},
-        address: ''
+        address: '',
+        shipping: 0,
+        govern:''
     });
+    const [history, setHistory] = useState([]);
 
     const userId = isAuthenticated() && isAuthenticated().user._id;
     const token = isAuthenticated() && isAuthenticated().token;
@@ -28,20 +33,49 @@ const Checkout = ({ products, setRun = f => f, run = undefined }) => {
             } else {
                 console.log(data);
                 setData({ clientToken: data.clientToken });
+                setData({ shipping: 0 });
             }
         });
     };
-
+    const init = (userId, token) => {
+        getPurchaseHistory(userId, token).then(data => {
+            if (data.error) {
+                console.log(data.error);
+            } else {
+                setHistory(data);
+            }
+        });
+    };
     useEffect(() => {
         getToken(userId, token);
+        init(userId, token);
     }, []);
+    const options = [
+        {value: '', text: '--Choose an option--'},
+        {value: 'cairo', text: 'Cairo'},
+        {value: 'giza', text: 'Giza'},
+        {value: 'alex', text: 'Alex'},
+        {value: 'aswan', text: 'Aswan'}
+      ];
+    
+      const [selected, setSelected] = useState(options.value);
+    
+      const handleShipping = event => {
+        console.log(event.target.value);
+        if (event.target.value == "cairo") setData({ ...data, shipping: 5});
+        else if (event.target.value == "giza") setData({ ...data, shipping: 6});
+        else if (event.target.value == "alex") setData({ ...data, shipping: 8});
+        else if (event.target.value == "aswan") setData({ ...data, shipping: 9});
+        else setData({ ...data, shipping: 0});
+        
+      };
 
     const handleAddress = event => {
         setData({ ...data, address: event.target.value });
     };
 
     const getTotal = () => {
-        return products.reduce((currentValue, nextValue) => {
+        return products.reduce((currentValue, nextValue,shipping) => {
             return currentValue + nextValue.count * nextValue.price;
         }, 0);
     };
@@ -57,7 +91,9 @@ const Checkout = ({ products, setRun = f => f, run = undefined }) => {
     };
 
     let deliveryAddress = data.address;
-
+    let deliveryShipping = getTotal(products) > 50 ? 0 : data.shipping;
+    let discount = history.length > 10 ? -2 : 0;
+        
     const buy = () => {
         setData({ loading: true });
         // send the nonce to your server
@@ -77,7 +113,7 @@ const Checkout = ({ products, setRun = f => f, run = undefined }) => {
                 // );
                 const paymentData = {
                     paymentMethodNonce: nonce,
-                    amount: getTotal(products)
+                    amount: getTotal(products) + deliveryShipping + discount
                 };
 
                 processPayment(userId, token, paymentData)
@@ -119,20 +155,61 @@ const Checkout = ({ products, setRun = f => f, run = undefined }) => {
                 setData({ ...data, error: error.message });
             });
     };
+    const buyCash = () => {
+        setData({ loading: true });
+        // send the nonce to your server
+        // nonce = data.instance.requestPaymentMethod()
+        const createOrderData = {
+            products: products,
+            shipping: true,
+            amount: getTotal(products) + deliveryShipping + discount,
+            address: deliveryAddress
+        };
+
+        createOrder(userId, token, createOrderData)
+            .then(response => {
+                emptyCart(() => {
+                    setRun(!run); // run useEffect in parent Cart
+                    console.log('payment success and empty cart');
+                    setData({
+                        loading: false,
+                        success: true,
+                        shipping:0
+                    });
+                });
+            })
+            .catch(error => {
+                console.log(error);
+                setData({ loading: false });
+            });
+            
+    
+    };
 
     const showDropIn = () => (
         <div onBlur={() => setData({ ...data, error: '' })}>
             {data.clientToken !== null && products.length > 0 ? (
                 <div>
                     <div className="gorm-group mb-3">
+                        <div>
+                            <label className="mr-2">Select governorate </label>
+                            <select value={selected} defaultValue={''} onChange={handleShipping}>
+                            {options.map(option => (
+                            <option key={option.value} value={option.value}>
+                            {option.text}
+                            </option>
+                            ))}
+                            </select>
+                            </div>
+                        </div>
                         <label className="text-muted">Delivery address:</label>
                         <textarea
                             onChange={handleAddress}
-                            className="form-control"
+                            className="form-control mb-4"
                             value={data.address}
                             placeholder="Type your delivery address here..."
                         />
-                    </div>
+                        
 
                     <DropIn
                         options={{
@@ -144,7 +221,10 @@ const Checkout = ({ products, setRun = f => f, run = undefined }) => {
                         onInstance={instance => (data.instance = instance)}
                     />
                     <button onClick={buy} className="btn btn-success btn-block">
-                        Pay
+                        Pay using credit
+                    </button>
+                    <button onClick={buyCash} className="btn btn-success btn-block">
+                        Pay cash
                     </button>
                 </div>
             ) : null}
@@ -159,19 +239,23 @@ const Checkout = ({ products, setRun = f => f, run = undefined }) => {
 
     const showSuccess = success => (
         <div className="alert alert-info" style={{ display: success ? '' : 'none' }}>
-            Thanks! Your payment was successful!
+            Thanks! Successful Order!
         </div>
     );
 
     const showLoading = loading => loading && <h2 className="text-danger">Loading...</h2>;
-
+    
+    
     return (
         <div>
-            <h2>Total: ${getTotal()}</h2>
+            <h2> {deliveryShipping == 0 && getTotal(products) > 50? "Enjoy your free shipping!": "" } </h2>
+            <h2> {discount != 0? "Congrats! you are a special customer, enjoy your $2 discount!": "" } </h2>
+            <h2>Total: ${getTotal() ==0? 0 : getTotal() + deliveryShipping + discount }</h2>
             {showLoading(data.loading)}
             {showSuccess(data.success)}
             {showError(data.error)}
             {showCheckout()}
+        
         </div>
     );
 };

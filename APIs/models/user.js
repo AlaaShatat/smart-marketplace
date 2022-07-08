@@ -37,7 +37,12 @@ const userSchema = new mongoose.Schema({
         history:{
             type: Array,
             default: []
+        },
+        recommendation:{
+            type: Array,
+            default: []
         }
+
     },
         {timestamps:true}
 );

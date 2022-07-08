@@ -15,6 +15,8 @@ require('dotenv').config();
  const categoryRoutes = require('./routes/category');
  const braintreeRoutes = require('./routes/braintree');
  const orderRoutes = require('./routes/order');
+ const governerateRoutes = require('./routes/governorate');
+ const addressRoutes = require('./routes/address');
  const storeRoutes = require('./routes/store');
 
 // start server 
@@ -41,3 +43,5 @@ app.use("/api", productRoutes)
 app.use("/api", braintreeRoutes)
 app.use("/api", orderRoutes)
 app.use("/api", storeRoutes)
+app.use("/api", governerateRoutes)
+app.use("/api", addressRoutes)
