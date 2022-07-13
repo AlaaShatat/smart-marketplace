@@ -40,6 +40,11 @@ const productSchema = new mongoose.Schema({
         data: Buffer,
         contentType: String
     },
+    size: {
+        type: String,
+        default: "l",
+        enum: ["s", "l", "xl", "2xl", "3xl"] // enum means string objects
+      },
     shipping:{
         require: false,
         type: Boolean
