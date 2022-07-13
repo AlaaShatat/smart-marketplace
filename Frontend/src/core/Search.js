@@ -2,6 +2,15 @@ import React, { useState, useEffect } from "react";
 import { getCategories, list } from "./apiCore";
 import Card from "./Card";
 
+
+const SpeechRecognition =
+  window.SpeechRecognition || window.webkitSpeechRecognition
+const mic = new SpeechRecognition()
+
+mic.continuous = true
+mic.interimResults = true
+mic.lang = 'en-US'
+
 const Search = () => {
     const [data, setData] = useState({
         categories: [],
@@ -10,9 +19,40 @@ const Search = () => {
         results: [],
         searched: false
     });
+    const [isListening, setIsListening] = useState(false)
 
     const { categories, category, search, results, searched } = data;
-
+    const handleListen = () => {
+        console.log(isListening)
+        if (isListening) {
+          mic.start()
+          mic.onend = () => {
+            console.log('continue..')
+            mic.start()
+          }
+        } else {
+          mic.stop()
+          mic.onend = () => {
+            console.log('Stopped Mic on Click')
+          }
+        }
+        mic.onstart = () => {
+          console.log('Mics on')
+        }
+    
+        mic.onresult = event => {
+          const transcript = Array.from(event.results)
+            .map(result => result[0])
+            .map(result => result.transcript)
+            .join('')
+          console.log(transcript)
+          setData({ ...data, search: transcript})
+          mic.onerror = event => {
+            console.log(event.error)
+          }
+        }
+      };
+    
     const loadCategories = () => {
         getCategories().then(data => {
             if (data.error) {
@@ -26,6 +66,12 @@ const Search = () => {
     useEffect(() => {
         loadCategories();
     }, []);
+
+    useEffect(() => {
+        handleListen()
+      }, [isListening]
+      );
+    
 
     const searchData = () => {
         // console.log(search, category);
@@ -107,6 +153,7 @@ const Search = () => {
                     style={{ border: "none" }}
                 >
                     <button className="input-group-text">Search</button>
+                    <button className="input-group-text" onClick={() => setIsListening(prevState => !prevState)}>🎙️</button>
                 </div>
             </span>
         </form>
