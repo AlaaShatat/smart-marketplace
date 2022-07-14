@@ -25,7 +25,7 @@ app.listen(port, ()=>{
     console.log("SERVER IS RUNNING")
 });
 mongoose.
-    connect(process.env.mongoURL)
+    connect(process.env.mongoURL|| process.env.mongoATLAS )
     .then(()=>{console.log("DATABASE CONNECTED")})
     .catch((err) =>{console.log("error connection",err)})
 
