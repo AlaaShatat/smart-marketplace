@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import ShowImage from './ShowImage';
 import moment from 'moment';
-import { addItem, updateItem, removeItem } from './cartHelpers';
+import { addItem, updateItem, updateSize, removeItem } from './cartHelpers';
 
 const Card = ({
   product,
@@ -16,7 +16,6 @@ const Card = ({
 }) => {
   const [redirect, setRedirect] = useState(false);
   const [count, setCount] = useState(product.count);
-  const [size, setSize] = useState("s");
 
   const showViewButton = showViewProductButton => {
     return (
@@ -65,11 +64,9 @@ const Card = ({
   };
 
   const handleSize = productId => event => {
+    console.log(event.target.value)
     setRun(!run); // run useEffect in parent Cart
-    setCount(event.target.value < 1 ? 1 : event.target.value);
-    if (event.target.value >= 1) {
-      updateItem(productId, event.target.value);
-    }
+    updateSize(productId, event.target.value);
   };
 
   const showCartUpdateOptions = cartUpdate => {
@@ -82,7 +79,18 @@ const Card = ({
             </div>
             <input type="number" className="form-control" value={count} onChange={handleChange(product._id)} />
           </div>
+          {product.enable && <div className="input-group mb-3">
+            <div className="input-group-prepend">
+              <span className="input-group-text">Adjust Size</span>
+            </div>
+            <input type="text" className="form-control"  onChange={handleSize(product._id)} />
+          </div>}
+          
+
         </div>
+
+        
+        
       )
     );
   };

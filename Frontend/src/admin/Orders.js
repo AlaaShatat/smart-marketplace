@@ -161,6 +161,7 @@ const Orders = () => {
                                         {showInput("Product name", p.name)}
                                         {showInput("Product price", p.price)}
                                         {showInput("Product total", p.count)}
+                                        {showInput("Product size", p.size)}
                                         {showInput("Product Id", p._id)}
                                     </div>
                                 ))}

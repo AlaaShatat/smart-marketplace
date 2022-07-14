@@ -8,7 +8,9 @@ const CartItemSchema = new mongoose.Schema(
     name: String,
     price: Number,
     count: Number,
-    size: String
+    size: {type:String,
+          default: ""
+        }
   },
   { timestamps: true }
 );

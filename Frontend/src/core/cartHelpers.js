@@ -1,4 +1,4 @@
-export const addItem = (item = [], count = 0, next = f => f) => {
+export const addItem = (item = [], count = 0, size = "", next = f => f) => {
     let cart = [];
     if (typeof window !== 'undefined') {
         if (localStorage.getItem('cart')) {
@@ -6,7 +6,8 @@ export const addItem = (item = [], count = 0, next = f => f) => {
         }
         cart.push({
             ...item,
-            count: 1
+            count: 1,
+            size:""
         });
 
         // remove duplicates
@@ -45,7 +46,7 @@ export const getCart = () => {
     return [];
 };
 
-export const updateItem = (productId, count) => {
+export const updateItem = (productId, count, size) => {
     let cart = [];
     if (typeof window !== 'undefined') {
         if (localStorage.getItem('cart')) {
@@ -55,6 +56,24 @@ export const updateItem = (productId, count) => {
         cart.map((product, i) => {
             if (product._id === productId) {
                 cart[i].count = count;
+                //cart[i].size = size
+            }
+        });
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
+};
+
+export const updateSize = (productId,size) => {
+    let cart = [];
+    if (typeof window !== 'undefined') {
+        if (localStorage.getItem('cart')) {
+            cart = JSON.parse(localStorage.getItem('cart'));
+        }
+
+        cart.map((product, i) => {
+            if (product._id === productId) {
+                cart[i].size = size
             }
         });
 
