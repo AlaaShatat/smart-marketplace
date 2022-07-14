@@ -7,7 +7,8 @@ const CartItemSchema = new mongoose.Schema(
     product: { type: ObjectId, ref: "Product" },
     name: String,
     price: Number,
-    count: Number
+    count: Number,
+    size: String
   },
   { timestamps: true }
 );
@@ -22,6 +23,8 @@ const OrderSchema = new mongoose.Schema(
     },
     amount: { type: Number },
     address: String,
+    comment: String,
+    phone: Number,
     shipping:{type: Number,
               default: 0 
     },

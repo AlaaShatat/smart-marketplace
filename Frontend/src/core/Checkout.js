@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { getProducts, getBraintreeClientToken, processPayment, createOrder } from './apiCore';
+import { getBraintreeClientToken, processPayment, createOrder } from './apiCore';
 import { emptyCart } from './cartHelpers';
-import Card from './Card';
 import { getPurchaseHistory } from '../user/apiUser';
 import { isAuthenticated } from '../auth';
 import { Link } from 'react-router-dom';
@@ -18,7 +17,9 @@ const Checkout = ({ products, setRun = f => f, run = undefined }) => {
         instance: {},
         address: '',
         shipping: 0,
-        govern:''
+        govern:'',
+        phone:0,
+        comment:''
     });
     const [history, setHistory] = useState([]);
 
@@ -62,16 +63,24 @@ const Checkout = ({ products, setRun = f => f, run = undefined }) => {
     
       const handleShipping = event => {
         console.log(event.target.value);
-        if (event.target.value == "cairo") setData({ ...data, shipping: 5});
-        else if (event.target.value == "giza") setData({ ...data, shipping: 6});
-        else if (event.target.value == "alex") setData({ ...data, shipping: 8});
-        else if (event.target.value == "aswan") setData({ ...data, shipping: 9});
+        if (event.target.value === "cairo") setData({ ...data, shipping: 5});
+        else if (event.target.value === "giza") setData({ ...data, shipping: 6});
+        else if (event.target.value === "alex") setData({ ...data, shipping: 8});
+        else if (event.target.value === "aswan") setData({ ...data, shipping: 9});
         else setData({ ...data, shipping: 0});
         
       };
 
     const handleAddress = event => {
         setData({ ...data, address: event.target.value });
+    };
+
+    const handleNumber = event => {
+        setData({ ...data, phone: event.target.value });
+    };
+
+    const handleComment = event => {
+        setData({ ...data, comment: event.target.value });
     };
 
     const getTotal = () => {
@@ -91,6 +100,8 @@ const Checkout = ({ products, setRun = f => f, run = undefined }) => {
     };
 
     let deliveryAddress = data.address;
+    let deliveryPhone = data.phone;
+    let deliveryComment = data.comment;
     let deliveryShipping = getTotal(products) > 50 ? 0 : data.shipping;
     let discount = history.length > 10 ? -2 : 0;
         
@@ -126,7 +137,9 @@ const Checkout = ({ products, setRun = f => f, run = undefined }) => {
                             products: products,
                             transaction_id: response.transaction.id,
                             amount: response.transaction.amount,
-                            address: deliveryAddress
+                            address: deliveryAddress,
+                            phone: deliveryPhone,
+                            comment: deliveryComment
                         };
 
                         createOrder(userId, token, createOrderData)
@@ -163,7 +176,9 @@ const Checkout = ({ products, setRun = f => f, run = undefined }) => {
             products: products,
             shipping: true,
             amount: getTotal(products) + deliveryShipping + discount,
-            address: deliveryAddress
+            address: deliveryAddress,
+            phone: deliveryPhone,
+            comment: deliveryComment
         };
 
         createOrder(userId, token, createOrderData)
@@ -200,15 +215,33 @@ const Checkout = ({ products, setRun = f => f, run = undefined }) => {
                             </option>
                             ))}
                             </select>
-                            </div>
                         </div>
-                        <label className="text-muted">Delivery address:</label>
-                        <textarea
-                            onChange={handleAddress}
-                            className="form-control mb-4"
-                            value={data.address}
-                            placeholder="Type your delivery address here..."
-                        />
+                            <label className="text-muted">Delivery address:</label>
+                            <textarea
+                                onChange={handleAddress}
+                                className="form-control mb-4"
+                                value={data.address}
+                                placeholder="Type your delivery address here..."
+                                required
+                            />
+                            
+                            <label className="text-muted">Phone Number:</label>
+                            <textarea
+                                onChange={handleNumber}
+                                className="form-control mb-4"
+                                value={data.phone}
+                                placeholder="Type your phone number here..."
+                                required
+                            />
+                            
+                            <label className="text-muted">Comments:</label>
+                            <textarea
+                                onChange={handleComment}
+                                className="form-control mb-4"
+                                value={data.comment}
+                                placeholder="Add any further comments..."
+                            />
+                    </div>
                         
 
                     <DropIn
@@ -219,6 +252,7 @@ const Checkout = ({ products, setRun = f => f, run = undefined }) => {
                             }
                         }}
                         onInstance={instance => (data.instance = instance)}
+                        placeholder= "alaa"
                     />
                     <button onClick={buy} className="btn btn-success btn-block">
                         Pay using credit
