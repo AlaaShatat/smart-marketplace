@@ -16,6 +16,7 @@ const Card = ({
 }) => {
   const [redirect, setRedirect] = useState(false);
   const [count, setCount] = useState(product.count);
+  const [size, setSize] = useState("s");
 
   const showViewButton = showViewProductButton => {
     return (
@@ -56,6 +57,14 @@ const Card = ({
   };
 
   const handleChange = productId => event => {
+    setRun(!run); // run useEffect in parent Cart
+    setCount(event.target.value < 1 ? 1 : event.target.value);
+    if (event.target.value >= 1) {
+      updateItem(productId, event.target.value);
+    }
+  };
+
+  const handleSize = productId => event => {
     setRun(!run); // run useEffect in parent Cart
     setCount(event.target.value < 1 ? 1 : event.target.value);
     if (event.target.value >= 1) {

@@ -136,6 +136,12 @@ const Orders = () => {
                                     <li className="list-group-item">
                                         Delivery address: {o.address}
                                     </li>
+                                    <li className="list-group-item">
+                                        Phone: 0{o.phone && o.phone}
+                                    </li>
+                                    <li className="list-group-item">
+                                        Comments: {o.comment && o.comment}
+                                    </li>
                                 </ul>
 
                                 <h3 className="mt-4 mb-4 font-italic">
