@@ -335,3 +335,6 @@ exports.decreaseQuantity = (req, res, next) => {
         next();
     });
 };
+exports.getSize = (req, res) => {
+    res.json(Product.schema.path('size').enumValues);
+};
