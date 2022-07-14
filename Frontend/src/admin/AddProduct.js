@@ -13,6 +13,7 @@ const AddProduct = () => {
         category: '',
         shipping: '',
         quantity: '',
+        enable:'',
         photo: '',
         loading: false,
         error: '',
@@ -30,6 +31,7 @@ const AddProduct = () => {
         category,
         shipping,
         quantity,
+        enable,
         loading,
         error,
         createdProduct,
@@ -124,6 +126,15 @@ const AddProduct = () => {
             <div className="form-group">
                 <label className="text-muted">Shipping</label>
                 <select onChange={handleChange('shipping')} className="form-control">
+                    <option>Please select</option>
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+            </div>
+
+            <div className="form-group">
+                <label className="text-muted">Enable size</label>
+                <select onChange={handleChange('enable')} className="form-control">
                     <option>Please select</option>
                     <option value="0">No</option>
                     <option value="1">Yes</option>

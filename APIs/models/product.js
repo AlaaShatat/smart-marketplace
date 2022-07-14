@@ -40,6 +40,11 @@ const productSchema = new mongoose.Schema({
         data: Buffer,
         contentType: String
     },
+    enable:{
+        require: false,
+        type: Boolean,
+        default: false
+    },
     size: {
         type: String,
         default: "l",

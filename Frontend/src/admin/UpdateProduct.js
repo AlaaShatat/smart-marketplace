@@ -13,6 +13,7 @@ const UpdateProduct = ({ match }) => {
         category: '',
         shipping: '',
         quantity: '',
+        enable:'',
         photo: '',
         loading: false,
         error: false,
@@ -30,6 +31,7 @@ const UpdateProduct = ({ match }) => {
         // categories,
         category,
         shipping,
+        enable,
         quantity,
         loading,
         error,
@@ -51,6 +53,7 @@ const UpdateProduct = ({ match }) => {
                     price: data.price,
                     category: data.category._id,
                     shipping: data.shipping,
+                    enable: data.enable,
                     quantity: data.quantity,
                     formData: new FormData()
                 });
@@ -96,6 +99,7 @@ const UpdateProduct = ({ match }) => {
                     photo: '',
                     price: '',
                     quantity: '',
+                    enable:'',
                     loading: false,
                     error: false,
                     redirectToProfile: true,
@@ -152,6 +156,15 @@ const UpdateProduct = ({ match }) => {
             </div>
 
             <div className="form-group">
+                <label className="text-muted">Enable Size</label>
+                <select onChange={handleChange('enable')} className="form-control">
+                    <option>Please select</option>
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+            </div>
+
+            <div className="form-group">
                 <label className="text-muted">Quantity</label>
                 <input onChange={handleChange('quantity')} type="number" className="form-control" value={quantity} />
             </div>
@@ -188,7 +201,7 @@ const UpdateProduct = ({ match }) => {
     };
 
     return (
-        <Layout title="Add a new product" description={`G'day ${user.name}, ready to add a new product?`}>
+        <Layout title="product product" description={`G'day ${user.name}, ready to update  product?`}>
             <div className="row">
                 <div className="col-md-8 offset-md-2">
                     {showLoading()}

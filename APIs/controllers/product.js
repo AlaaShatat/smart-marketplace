@@ -15,9 +15,9 @@ exports.create = (req, res) =>{
                 error: 'image could not be found'
             });
         }
-        const {name, description, price, owner, category, quantity, shipping} = fields;
+        const {name, description, price, owner, category, quantity, shipping, enable} = fields;
         // check 
-        if(!name|| !description || !price|| !category|| !quantity || !shipping){
+        if(!name|| !description || !price|| !category|| !quantity || !shipping || !enable){
             res.status(400).json({
                 error: "missing requirements"
             })
@@ -109,9 +109,9 @@ exports.updateProduct = (req, res) =>{
                 error: 'image could not be found'
             });
         }
-        const {name, description, price, owner, category, quantity, shipping} = fields;
+        const {name, description, price, owner, category, quantity, shipping, enable} = fields;
         // check 
-        if(!name|| !description || !price|| !category|| !quantity || !shipping){
+        if(!name|| !description || !price|| !category|| !quantity || !shipping || !enable){
             res.status(400).json({
                 error: "missing requirements"
             })
