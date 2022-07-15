@@ -38,7 +38,7 @@ const Home = ()=>{
       }, [])
       return(
 
-       <Layout title="Home" description="ShopOn is a place to find your needs, find us: Cairo, Saint Fatima.">
+       <Layout title="Home" description="ShopOn is a place to find your needs, find us in our branches.">
            <Search/>
             <h2 className="mb-4"> Best Sellers</h2>
             <div className="row">

@@ -46,6 +46,11 @@ const Dashboard = () => {
                             Recommendation
                         </Link>
                     </li>
+                    <li className="list-group-item">
+                        <Link className="nav-link" to="/current/location">
+                            Current Location
+                        </Link>
+                    </li>
                 </ul>
             </div>
         );
