@@ -120,9 +120,10 @@ const Orders = () => {
                                     <li className="list-group-item">
                                         {showStatus(o)}
                                     </li>
-                                    <li className="list-group-item">
+                                    {o.transaction_id? <li className="list-group-item">
                                         Transaction ID: {o.transaction_id}
-                                    </li>
+                                    </li> : <li  className="list-group-item">Payment: Cash</li>}
+                                    
                                     <li className="list-group-item">
                                         Amount: ${o.amount}
                                     </li>
