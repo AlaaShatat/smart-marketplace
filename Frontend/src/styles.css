@@ -1,3 +1,9 @@
+/** chatbot **/
+.artibot-wrapper--3PaNf{
+    --artibot-launcher-bg-color: #efaeae!important;
+    --artibot-launcher-bg-hover-color: rgb(28 40 139 / 50%)!important;
+    --artibot-launcher-image-color: #eff0f9!important;
+}
 /**
  * border radius
  */
