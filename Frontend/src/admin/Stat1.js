@@ -16,41 +16,23 @@ const Stats = () => {
             <ul className="list-group">
                 <li className="list-group-item">
                     <Link className="nav-link" to="/admin/statistics/rev">
-                       Revenue of Last Week
+                       Revenue of Current Week
                     </Link>
                 </li>
                 <li className="list-group-item">
                     <Link className="nav-link" to="/admin/statistics/orders">
-                       Orders of Last Week
+                       Orders of Current Week
+                    </Link>
+                </li>
+                <li className="list-group-item">
+                    <Link className="nav-link" to="/admin/statistics/prevMonth">
+                        Last Month Revenue 
                     </Link>
                 </li>
             </ul>
         </div>
     )}
 
-const Stat = () => {
-    return (
-        <div className="card">
-            <h4 className="card-header">Stats</h4>
-            <ul className="list-group">
-                <li className="list-group-item">
-                    <Link className="nav-link" to="/admin/statistics/rev">
-                       Revenue of Last Week
-                    </Link>
-                </li>
-                <li className="list-group-item">
-                    <Link className="nav-link" to="/admin/statistics/orders">
-                       Orders of Last Week
-                    </Link>
-                </li>
-                <li className="list-group-item">
-                    <Link className="nav-link" to="/admin/statistics">
-                       Revenue of Last Week
-                    </Link>
-                </li>
-            </ul>
-        </div>
-    )}
 
 
 

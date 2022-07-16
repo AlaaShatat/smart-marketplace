@@ -19,6 +19,7 @@ import Orders from "./admin/Orders";
 import Statistics from "./admin/Statistics";
 import Stat1 from "./admin/Stat1";
 import Stat2 from "./admin/Stat2";
+import Stat3 from "./admin/Stat3";
 
 import Profile from "./user/Profile";
 import About from "./core/About";
@@ -49,6 +50,7 @@ const Routes = () =>{
             <AdminRoute path="/admin/statistics" exact component={Statistics} />
             <AdminRoute path="/admin/statistics/rev" exact component={Stat1} />
             <AdminRoute path="/admin/statistics/orders" exact component={Stat2} />
+            <AdminRoute path="/admin/statistics/prevMonth" exact component={Stat3} />
 
 
             <AdminRoute path="/admin/products" exact component={ManageProducts} />

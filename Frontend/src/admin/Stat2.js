@@ -16,12 +16,17 @@ const Stats = () => {
             <ul className="list-group">
                 <li className="list-group-item">
                     <Link className="nav-link" to="/admin/statistics/rev">
-                       Revenue of Last Week
+                       Revenue of Current Week
                     </Link>
                 </li>
                 <li className="list-group-item">
                     <Link className="nav-link" to="/admin/statistics/orders">
-                       Orders of Last Week
+                       Orders of Current Week
+                    </Link>
+                </li>
+                <li className="list-group-item">
+                    <Link className="nav-link" to="/admin/statistics/prevMonth">
+                        Last Month Revenue 
                     </Link>
                 </li>
             </ul>
